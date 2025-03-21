@@ -98,21 +98,3 @@ class DataStorage:
         except Exception as e:
             print(f"Erreur lors de la récupération de la taille de la base de données : {e}")
             return 0
-
-# Test en standalone
-if __name__ == "__main__":
-    storage = DataStorage()
-
-    # Exemple de données à enregistrer
-    sample_data = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "%DISK": "29.9",
-        "PROCESSUS": "343",
-        "%RAM": "38.7",
-        "USERS": "1"
-    }
-
-    # Sauvegarde et récupération pour test
-    storage.save_data(sample_data)
-    print(storage.get_data(sample_data["timestamp"]))
-    print("Timestamps enregistrés :", storage.list_all_data())
