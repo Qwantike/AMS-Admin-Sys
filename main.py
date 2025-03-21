@@ -28,6 +28,7 @@ def main():
             print("\nDonnées stockées après 1 minute :")
             storage.list_all_data()  # Affiche toutes les données enregistrées
             print(storage.get_length())
+            alert_storage.list_all_alerts()
             break  # Arrête la boucle après affichage
 
         time.sleep(1)  # Rafraîchit toutes les 1 secondes

@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timedelta
 
 class AlertStorage:
-    def __init__(self, storage_file="alert_storage.db", max_size=99, max_age_days=7):
+    def __init__(self, storage_file="alert_storage.db", max_size=99, max_age_days=365):
         self.storage_file = storage_file
         self.max_size = max_size
         self.max_age_days = max_age_days
@@ -58,3 +58,21 @@ class AlertStorage:
         except Exception as e:
             print(f"Erreur lors de la récupération de l'alerte : {e}")
             return None
+
+    def list_all_alerts(self):
+        """Affiche toutes les alertes enregistrées."""
+        try:
+            with dbm.open(self.storage_file, 'r') as db:
+                all_alerts = []
+                for key in db.keys():
+                    alert = json.loads(db[key].decode('utf-8'))
+                    all_alerts.append(alert)
+
+                if all_alerts:
+                    print("Toutes les alertes enregistrées :")
+                    for alert in all_alerts:
+                        print(alert)
+                else:
+                    print("Aucune alerte enregistrée.")
+        except Exception as e:
+            print(f"Erreur lors de la récupération des alertes : {e}")

@@ -1,11 +1,15 @@
+import locale
+from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
-from datetime import datetime
 import json
 
 class CertParser:
     def __init__(self):
         self.url = "https://www.cert.ssi.gouv.fr/"
+
+        # Configurer la locale pour la gestion des dates en français
+        locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
     def get_last_alert(self):
         """Récupère la dernière alerte CERT et la renvoie sous forme de JSON."""
@@ -27,8 +31,12 @@ class CertParser:
                 alert_url = first_alert.find("div", class_="item-title").a["href"].strip()
 
                 # Convertir la date
-                date_obj = datetime.strptime(alert_date, "%d %B %Y")
-                alert_time = date_obj.strftime("%Y-%m-%d")
+                try:
+                    date_obj = datetime.strptime(alert_date, "%d %B %Y")  # Le format "%d %B %Y" fonctionne avec la locale fr_FR
+                    alert_time = date_obj.strftime("%Y-%m-%d")
+                except ValueError as e:
+                    print(f"Erreur de format de date : {e}")
+                    return None
 
                 # URL complète
                 full_alert_url = f"https://www.cert.ssi.gouv.fr{alert_url}"
@@ -50,17 +58,6 @@ class CertParser:
         except requests.RequestException as e:
             print(f"Erreur de récupération : {e}")
             return None
-
-# Exécution
-def main():
-    parser = CertParser()
-    alert_json = parser.get_last_alert()
-    
-    if alert_json:
-        print(f"Alerte CERT récupérée : {alert_json}")
-        # Si tu souhaites enregistrer dans le stockage, fais-le ici :
-        # storage = AlertStorage()
-        # storage.save_alert(json.loads(alert_json))
-
-if __name__ == "__main__":
-    main()
+        except ValueError as e:
+            print(f"Erreur de format de date : {e}")
+            return None
