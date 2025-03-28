@@ -1,4 +1,7 @@
 import time
+import os
+import sys
+import json
 from sondes.controller import gather_data
 from stockage.stockage import DataStorage
 from stockage.alert_storage import AlertStorage  
@@ -7,7 +10,9 @@ from crisis.crisis_check import check_crisis_conditions
 from config.config_manager import load_config
 from config.config_manager import load_config  
 
-import json
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 def main():
     storage = DataStorage()
