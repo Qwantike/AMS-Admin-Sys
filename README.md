@@ -23,3 +23,5 @@ Ajouter un fichier de log (créer automatiquement si pas présent)
 
 
 pip install python-dotenv
+
+/home/paul/AMS-Admin-Sys/main.py

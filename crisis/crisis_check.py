@@ -1,5 +1,5 @@
 import json
-from email_sender import send_alert_email
+from crisis.email_sender import send_alert_email
 
 # Fonction pour vérifier les conditions de crise en utilisant les données des sondes
 def check_crisis_conditions(data, config):
