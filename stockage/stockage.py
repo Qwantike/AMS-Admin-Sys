@@ -1,9 +1,10 @@
 import dbm
 import json
+import os
 from datetime import datetime, timedelta
 
 class DataStorage:
-    def __init__(self, storage_file="data_storage.db", max_size=99, max_age_days=7):
+    def __init__(self, storage_file="data_storage.db", config_path="../config/config.json"):
         """
         Initialise le fichier de stockage dbm avec une taille d'historique définie et un nettoyage des anciennes données.
         
@@ -12,8 +13,21 @@ class DataStorage:
         - max_age_days : la durée maximale en jours pendant laquelle les données sont conservées
         """
         self.storage_file = storage_file
-        self.max_size = max_size  # Taille maximale de l'historique
-        self.max_age_days = max_age_days  # Durée maximale de conservation des données
+        self.config = self.load_config(config_path)
+        self.max_size = self.config.get("max_history_entries", 99)
+        self.max_age_days = self.config.get("history_retention_days", 7)  
+
+    def load_config(self, config_path):
+        """Charge la configuration depuis un fichier JSON et retourne un dictionnaire avec valeurs par défaut en cas d'erreur."""
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, "r") as file:
+                    return json.load(file)
+            except (json.JSONDecodeError, IOError) as e:
+                print(f"Erreur de chargement de la configuration ({config_path}): {e}")
+
+        # Configuration par défaut en cas de problème
+        return {"max_history_entries": 99, "history_retention_days": 7}
 
     def save_data(self, data):
         """Enregistre les données sous forme de clé-valeur dans la base dbm."""

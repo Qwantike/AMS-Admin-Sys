@@ -52,7 +52,7 @@ class CertParser:
                 return json.dumps(new_alert)  # Retourner l'alerte sous forme de JSON
 
             else:
-                print("⚠️ Aucune alerte trouvée.")
+                print("Aucune alerte trouvée.")
                 return None
 
         except requests.RequestException as e:
