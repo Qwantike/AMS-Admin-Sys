@@ -83,6 +83,31 @@ class DataStorage:
         except Exception as e:
             print(f"Erreur lors de la récupération des données : {e}")
             return None
+        
+    def get_all_data(self):
+        """Retourne toutes les données stockées sous forme de liste triée."""
+        data_list = []
+        
+        try:
+            with dbm.open(self.storage_file, 'r') as db:
+                if len(db.keys()) == 0:
+                    print("Aucune donnée trouvée.")
+                    return []
+                
+                # Trier les clés (timestamps) par ordre chronologique
+                sorted_keys = sorted(db.keys(), key=lambda k: datetime.strptime(k.decode('utf-8'), "%Y-%m-%d %H:%M:%S"))
+                
+                # Stocker les données triées
+                for key in sorted_keys:
+                    stored_data = json.loads(db[key].decode("utf-8"))
+                    stored_data["timestamp"] = key.decode("utf-8")  # Ajouter le timestamp à l'objet JSON
+                    data_list.append(stored_data)
+
+        except Exception as e:
+            print(f"Erreur lors de la récupération des données : {e}")
+
+        return data_list
+
 
     def list_all_data(self):
         """Liste tous les timestamps et leurs données associées, triées par date."""

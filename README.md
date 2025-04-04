@@ -1,5 +1,7 @@
 installation de python : sudo apt install python3-pip
 installation de psutil : sudo apt install python3-psutil
+installation de flask : sudo apt install python3-flask (pip install flask)
+installation de gnuplot : sudo apt install python3-gnuplot
 
 [Wikipedia - DBM](https://fr.wikipedia.org/wiki/Dbm)
 
