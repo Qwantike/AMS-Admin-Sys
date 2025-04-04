@@ -14,6 +14,5 @@ def index():
     return render_template("index.html", images=images)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
+    # Spécifier 0.0.0.0 pour que Flask soit accessible depuis l'extérieur de la VM
+    app.run(debug=True, host="0.0.0.0", port=5000)
