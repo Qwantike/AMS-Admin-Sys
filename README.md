@@ -16,7 +16,7 @@ installation de dotenv : sudo apt install python-dotenv
 ### Ajouter main.py à cron
 
 Cron permet de lancer des scripts automatiquement sans bloquer l'interface du serveur. Le script qui sonde l'état des machines est dont lancé toutes les 5 minutes :  
-`crontab -e`
+`crontab -e`  
 Rajouter la ligne :  
 `*/5 * * * * /usr/bin/python3 /chemin/vers/main.py`
 
